@@ -1,0 +1,27 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* src/index.css */
+@import 'react-datepicker/dist/react-datepicker.css';
+
+/* Airbnb-style customizations */
+.react-datepicker {
+  font-family: inherit;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.react-datepicker__header {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.react-datepicker__day--selected {
+  background: #ff385c !important;
+  color: white !important;
+}
+
+.react-datepicker__day--in-selecting-range {
+  background: #ffe0e6 !important;
+}
