@@ -1,8 +1,16 @@
 // src/pages/TouristSpotPage.jsx
-import { useParams, Link } from 'react-router-dom';
-import { Container, Row, Col, Button, Badge, Carousel, ProgressBar } from 'react-bootstrap';
-import { destinations } from '../mockData';
-import { useState } from 'react';
+import { useParams, Link } from "react-router-dom";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Badge,
+  Carousel,
+  ProgressBar,
+} from "react-bootstrap";
+import { destinations } from "../mockData";
+import { useState } from "react";
 
 export default function TouristSpotPage() {
   const { siteId } = useParams();
@@ -13,7 +21,7 @@ export default function TouristSpotPage() {
 
   // find the site in mockData
   for (const dest of destinations) {
-    const found = dest.sites.find(s => s.id === siteId);
+    const found = dest.sites.find((s) => s.id === siteId);
     if (found) {
       site = found;
       parentDestination = dest;
@@ -26,33 +34,58 @@ export default function TouristSpotPage() {
       <Container className="my-5 text-center">
         <h2>Tourist Spot Not Found</h2>
         <p>ID: {siteId}</p>
-        <Link to="/" className="btn btn-primary">Back to Home</Link>
+        <Link to="/" className="btn btn-primary">
+          Back to Home
+        </Link>
       </Container>
     );
   }
 
+  // --- ADDITION 1: Generate the map source URL ---
+  // Uses the site name and its parent destination name for the map query
+  const mapQuery = encodeURIComponent(
+    `${site.name}, ${parentDestination.name}`
+  );
+  const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+  // -----------------------------------------------
+
   const images = site.images || [parentDestination.image];
   const reviews = site.reviews || [
-    { name: 'Emily', rating: 5, text: 'Breathtaking experience, definitely worth it!' },
-    { name: 'Raj', rating: 4, text: 'Beautiful place, but a bit crowded during weekends.' },
-    { name: 'Clara', rating: 5, text: 'Magical vibes, great for photos and sunsets.' }
+    {
+      name: "Emily",
+      rating: 5,
+      text: "Breathtaking experience, definitely worth it!",
+    },
+    {
+      name: "Raj",
+      rating: 4,
+      text: "Beautiful place, but a bit crowded during weekends.",
+    },
+    {
+      name: "Clara",
+      rating: 5,
+      text: "Magical vibes, great for photos and sunsets.",
+    },
   ];
   const tips = site.tips || [
-    'Best time to visit: early morning or sunset',
-    'Carry water and sunscreen',
-    'Book tickets online to avoid long queues'
+    "Best time to visit: early morning or sunset",
+    "Carry water and sunscreen",
+    "Book tickets online to avoid long queues",
   ];
   const highlights = site.highlights || [
-    'Scenic Views',
-    'Cultural Experience',
-    'Historical Significance'
+    "Scenic Views",
+    "Cultural Experience",
+    "Historical Significance",
   ];
   const cleanlinessScore = 9.5;
 
   return (
     <Container className="my-5">
       {/* Back Button */}
-      <Link to={`/destinations/${parentDestination.id}`} className="text-decoration-none mb-4 d-inline-block text-muted">
+      <Link
+        to={`/destinations/${parentDestination.id}`}
+        className="text-decoration-none mb-4 d-inline-block text-muted"
+      >
         ← Back to {parentDestination.name}
       </Link>
 
@@ -65,7 +98,9 @@ export default function TouristSpotPage() {
           </p>
           <div className="d-flex align-items-center gap-3">
             <span className="text-warning fs-5">★★★★★</span>
-            <Badge bg="success" className="fs-6">{site.rating || 4.8}</Badge>
+            <Badge bg="success" className="fs-6">
+              {site.rating || 4.8}
+            </Badge>
             <span className="text-muted">1.2k reviews</span>
           </div>
         </Col>
@@ -74,14 +109,18 @@ export default function TouristSpotPage() {
       {/* Image Gallery */}
       <Row className="mb-5">
         <Col>
-          <Carousel activeIndex={selectedImageIndex} onSelect={setSelectedImageIndex} interval={null}>
+          <Carousel
+            activeIndex={selectedImageIndex}
+            onSelect={setSelectedImageIndex}
+            interval={null}
+          >
             {images.map((img, i) => (
               <Carousel.Item key={i}>
                 <img
                   src={img}
                   alt={`${site.name} - ${i + 1}`}
                   className="d-block w-100 rounded"
-                  style={{ height: '600px', objectFit: 'cover' }}
+                  style={{ height: "600px", objectFit: "cover" }}
                 />
               </Carousel.Item>
             ))}
@@ -94,8 +133,17 @@ export default function TouristSpotPage() {
                 key={i}
                 src={img}
                 alt=""
-                className={`rounded border ${selectedImageIndex === i ? 'border-primary border-3' : 'border'}`}
-                style={{ width: '100px', height: '70px', objectFit: 'cover', cursor: 'pointer' }}
+                className={`rounded border ${
+                  selectedImageIndex === i
+                    ? "border-primary border-3"
+                    : "border"
+                }`}
+                style={{
+                  width: "100px",
+                  height: "70px",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                }}
                 onClick={() => setSelectedImageIndex(i)}
               />
             ))}
@@ -108,14 +156,20 @@ export default function TouristSpotPage() {
         <Col lg={8}>
           <h2 className="h3 fw-bold mb-3">About {site.name}</h2>
           <p className="lead text-muted">{site.description}</p>
-          
+
           {/* Wikipedia Link */}
           {site.wiki && (
             <p className="mt-3">
-              Learn more on{' '}
-              <a href={site.wiki} target="_blank" rel="noopener noreferrer" className="text-primary">
+              Learn more on{" "}
+              <a
+                href={site.wiki}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary"
+              >
                 Wikipedia
-              </a>.
+              </a>
+              .
             </p>
           )}
         </Col>
@@ -160,11 +214,18 @@ export default function TouristSpotPage() {
           <div className="p-4 bg-light rounded">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h5 className="mb-0">Cleanliness Score</h5>
-              <span className="display-6 fw-bold text-success">{cleanlinessScore}/10</span>
+              <span className="display-6 fw-bold text-success">
+                {cleanlinessScore}/10
+              </span>
             </div>
-            <ProgressBar now={cleanlinessScore * 10} variant="success" style={{ height: '12px' }} />
+            <ProgressBar
+              now={cleanlinessScore * 10}
+              variant="success"
+              style={{ height: "12px" }}
+            />
             <p className="mt-3 text-muted small">
-              Based on visitor reviews. Known for well-maintained surroundings and facilities.
+              Based on visitor reviews. Known for well-maintained surroundings
+              and facilities.
             </p>
           </div>
         </Col>
@@ -180,7 +241,8 @@ export default function TouristSpotPage() {
                 <div>
                   <h6 className="fw-bold">{review.name}</h6>
                   <div className="text-warning mb-2">
-                    {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                    {"★".repeat(review.rating)}
+                    {"☆".repeat(5 - review.ring)}
                   </div>
                 </div>
                 <small className="text-muted">2 weeks ago</small>
@@ -197,13 +259,23 @@ export default function TouristSpotPage() {
         <Col>
           <h2 className="h3 fw-bold mb-4">Nearby Hotels & Restaurants</h2>
           <Row>
-            {parentDestination.hotels.slice(0, 2).map(h => (
+            {parentDestination.hotels.slice(0, 2).map((h) => (
               <Col md={6} key={h.id} className="mb-3">
                 <div className="p-3 border rounded shadow-sm bg-light">
-                  <img src={h.image} alt={h.name} className="rounded mb-3 w-100" style={{ height: '200px', objectFit: 'cover' }} />
+                  <img
+                    src={h.image}
+                    alt={h.name}
+                    className="rounded mb-3 w-100"
+                    style={{ height: "200px", objectFit: "cover" }}
+                  />
                   <h5>{h.name}</h5>
                   <p className="text-muted small">{h.location}</p>
-                  <Link to={`/hotel/${h.id}`} className="btn btn-outline-primary btn-sm">View Hotel</Link>
+                  <Link
+                    to={`/hotel/${h.id}`}
+                    className="btn btn-outline-primary btn-sm"
+                  >
+                    View Hotel
+                  </Link>
                 </div>
               </Col>
             ))}
@@ -211,18 +283,28 @@ export default function TouristSpotPage() {
         </Col>
       </Row>
 
-      {/* Map Placeholder */}
+      {/* --- ADDITION 2: Replaced Map Placeholder --- */}
       <Row>
         <Col>
           <h2 className="h3 fw-bold mb-4">Where you'll be</h2>
-          <div 
-            className="bg-light rounded d-flex align-items-center justify-content-center"
-            style={{ height: '400px' }}
-          >
-            <p className="text-muted">Interactive map coming soon...</p>
+          <div className="rounded overflow-hidden" style={{ height: "400px" }}>
+            <iframe
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              scrolling="no"
+              marginHeight="0"
+              marginWidth="0"
+              src={mapSrc}
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
         </Col>
       </Row>
+      {/* ------------------------------------------- */}
     </Container>
   );
 }

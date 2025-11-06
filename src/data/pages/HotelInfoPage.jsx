@@ -1,8 +1,17 @@
 // src/pages/HotelInfoPage.jsx
-import { useState } from 'react';
-import { Container, Row, Col, Button, Carousel, Badge, ProgressBar, ListGroup } from 'react-bootstrap';
-import { useParams, Link } from 'react-router-dom';
-import { destinations } from '../mockData';
+import { useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Carousel,
+  Badge,
+  ProgressBar,
+  ListGroup,
+} from "react-bootstrap";
+import { useParams, Link } from "react-router-dom";
+import { destinations } from "../mockData";
 
 export default function HotelInfoPage() {
   const { hotelId } = useParams();
@@ -10,7 +19,7 @@ export default function HotelInfoPage() {
 
   let hotel = null;
   for (const dest of destinations) {
-    hotel = dest.hotels.find(h => h.id === hotelId);
+    hotel = dest.hotels.find((h) => h.id === hotelId);
     if (hotel) break;
   }
 
@@ -19,7 +28,9 @@ export default function HotelInfoPage() {
       <Container className="my-5 text-center">
         <h2>Hotel Not Found</h2>
         <p>ID: {hotelId}</p>
-        <Link to="/" className="btn btn-primary">Back to Home</Link>
+        <Link to="/" className="btn btn-primary">
+          Back to Home
+        </Link>
       </Container>
     );
   }
@@ -27,17 +38,34 @@ export default function HotelInfoPage() {
   const images = hotel.images || [hotel.image];
   const amenities = hotel.amenities || [];
   const reviews = hotel.reviews || [
-    { name: 'Alex', rating: 5, text: 'Amazing stay! The rooftop pool was incredible.' },
-    { name: 'Sarah', rating: 4, text: 'Great location, clean rooms, friendly staff.' },
-    { name: 'John', rating: 5, text: 'Best hotel in Paris. Will come back!' }
+    {
+      name: "Alex",
+      rating: 5,
+      text: "Amazing stay! The rooftop pool was incredible.",
+    },
+    {
+      name: "Sarah",
+      rating: 4,
+      text: "Great location, clean rooms, friendly staff.",
+    },
+    { name: "John", rating: 5, text: "Best hotel in Paris. Will come back!" },
   ];
 
   const cleanlinessScore = 9.7;
 
+  // --- ADDITION 1: Generate the map source URL ---
+  // This creates a search query for the map using the hotel's name and location
+  const mapQuery = encodeURIComponent(`${hotel.name}, ${hotel.location}`);
+  const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+  // -----------------------------------------------
+
   return (
     <Container className="my-5">
       {/* Back Button */}
-      <Link to="/" className="text-decoration-none mb-4 d-inline-block text-muted">
+      <Link
+        to="/"
+        className="text-decoration-none mb-4 d-inline-block text-muted"
+      >
         ← Back to Home
       </Link>
 
@@ -50,7 +78,9 @@ export default function HotelInfoPage() {
           </p>
           <div className="d-flex align-items-center gap-3">
             <span className="text-warning fs-5">★★★★★</span>
-            <Badge bg="success" className="fs-6">{hotel.rating || 4.9}</Badge>
+            <Badge bg="success" className="fs-6">
+              {hotel.rating || 4.9}
+            </Badge>
             <span className="text-muted">128 reviews</span>
           </div>
         </Col>
@@ -59,14 +89,18 @@ export default function HotelInfoPage() {
       {/* Image Gallery */}
       <Row className="mb-5">
         <Col>
-          <Carousel activeIndex={selectedImageIndex} onSelect={setSelectedImageIndex} interval={null}>
+          <Carousel
+            activeIndex={selectedImageIndex}
+            onSelect={setSelectedImageIndex}
+            interval={null}
+          >
             {images.map((img, i) => (
               <Carousel.Item key={i}>
                 <img
                   src={img}
                   alt={`${hotel.name} - ${i + 1}`}
                   className="d-block w-100 rounded"
-                  style={{ height: '600px', objectFit: 'cover' }}
+                  style={{ height: "600px", objectFit: "cover" }}
                 />
               </Carousel.Item>
             ))}
@@ -77,8 +111,17 @@ export default function HotelInfoPage() {
                 key={i}
                 src={img}
                 alt=""
-                className={`rounded border ${selectedImageIndex === i ? 'border-primary border-3' : 'border'}`}
-                style={{ width: '100px', height: '70px', objectFit: 'cover', cursor: 'pointer' }}
+                className={`rounded border ${
+                  selectedImageIndex === i
+                    ? "border-primary border-3"
+                    : "border"
+                }`}
+                style={{
+                  width: "100px",
+                  height: "70px",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                }}
                 onClick={() => setSelectedImageIndex(i)}
               />
             ))}
@@ -118,15 +161,18 @@ export default function HotelInfoPage() {
           <div className="p-4 bg-light rounded">
             <div className="d-flex justify-content-between align-items-items-center mb-3">
               <h5 className="mb-0">Cleanliness Score</h5>
-              <span className="display-6 fw-bold text-success">{cleanlinessScore}/10</span>
+              <span className="display-6 fw-bold text-success">
+                {cleanlinessScore}/10
+              </span>
             </div>
-            <ProgressBar 
-              now={cleanlinessScore * 10} 
-              variant="success" 
-              style={{ height: '12px' }} 
+            <ProgressBar
+              now={cleanlinessScore * 10}
+              variant="success"
+              style={{ height: "12px" }}
             />
             <p className="mt-3 text-muted small">
-              Based on 128 guest reviews. This place is known for exceptional cleanliness.
+              Based on 128 guest reviews. This place is known for exceptional
+              cleanliness.
             </p>
           </div>
         </Col>
@@ -142,7 +188,8 @@ export default function HotelInfoPage() {
                 <div>
                   <h6 className="fw-bold">{review.name}</h6>
                   <div className="text-warning mb-2">
-                    {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                    {"★".repeat(review.rating)}
+                    {"☆".repeat(5 - review.rating)}
                   </div>
                 </div>
                 <small className="text-muted">2 weeks ago</small>
@@ -162,7 +209,7 @@ export default function HotelInfoPage() {
               <strong className="display-5 text-danger">${hotel.price}</strong>
               <span className="text-muted"> / night</span>
             </div>
-            <Button size="lg" style={{ background: '#ff385c', border: 'none' }}>
+            <Button size="lg" style={{ background: "#ff385c", border: "none" }}>
               Book Now
             </Button>
           </div>
@@ -172,18 +219,28 @@ export default function HotelInfoPage() {
         </Col>
       </Row>
 
-      {/* Map Placeholder */}
+      {/* --- ADDITION 2: Replaced Map Placeholder --- */}
       <Row>
         <Col>
           <h2 className="h3 fw-bold mb-4">Where you'll be</h2>
-          <div 
-            className="bg-light rounded d-flex align-items-center justify-content-center"
-            style={{ height: '400px' }}
-          >
-            <p className="text-muted">Interactive map coming soon...</p>
+          <div className="rounded overflow-hidden" style={{ height: "400px" }}>
+            <iframe
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              scrolling="no"
+              marginHeight="0"
+              marginWidth="0"
+              src={mapSrc}
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
         </Col>
       </Row>
+      {/* ------------------------------------------- */}
     </Container>
   );
 }
