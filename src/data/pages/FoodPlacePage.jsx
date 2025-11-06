@@ -1,8 +1,16 @@
 // src/pages/FoodPlacePage.jsx
-import { useState } from 'react';
-import { Container, Row, Col, Button, Carousel, Badge, ProgressBar } from 'react-bootstrap';
-import { useParams, Link } from 'react-router-dom';
-import { destinations } from '../mockData';
+import { useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Carousel,
+  Badge,
+  ProgressBar,
+} from "react-bootstrap";
+import { useParams, Link } from "react-router-dom";
+import { destinations } from "../mockData";
 
 export default function FoodPlacePage() {
   const { foodId } = useParams();
@@ -12,7 +20,7 @@ export default function FoodPlacePage() {
   let parentDestination = null;
 
   for (const dest of destinations) {
-    const found = dest.foodPlaces?.find(f => f.id === foodId);
+    const found = dest.foodPlaces?.find((f) => f.id === foodId);
     if (found) {
       foodPlace = found;
       parentDestination = dest;
@@ -25,25 +33,40 @@ export default function FoodPlacePage() {
       <Container className="my-5 text-center">
         <h2>Food Place Not Found</h2>
         <p>ID: {foodId}</p>
-        <Link to="/" className="btn btn-primary">Back to Home</Link>
+        <Link to="/" className="btn btn-primary">
+          Back to Home
+        </Link>
       </Container>
     );
   }
 
   const images = foodPlace.images || [parentDestination.image];
-  const specialties = foodPlace.specialties || ['Local delicacies', 'Signature dishes'];
+  const specialties = foodPlace.specialties || [
+    "Local delicacies",
+    "Signature dishes",
+  ];
   const reviews = foodPlace.reviews || [
-    { name: 'Alice', rating: 5, text: 'Delicious food and amazing ambiance!' },
-    { name: 'Michael', rating: 4, text: 'Great service and tasty meals.' },
-    { name: 'Ravi', rating: 5, text: 'Perfect place for a family dinner.' }
+    { name: "Alice", rating: 5, text: "Delicious food and amazing ambiance!" },
+    { name: "Michael", rating: 4, text: "Great service and tasty meals." },
+    { name: "Ravi", rating: 5, text: "Perfect place for a family dinner." },
   ];
   const cleanlinessScore = foodPlace.cleanlinessScore || 9.2;
   const averagePrice = foodPlace.averagePrice || 15;
 
+  // --- ADDITION 1: Generate the map source URL ---
+  const mapQuery = encodeURIComponent(
+    `${foodPlace.name}, ${foodPlace.location}`
+  );
+  const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+  // -----------------------------------------------
+
   return (
     <Container className="my-5">
       {/* Back Button */}
-      <Link to={`/destinations/${parentDestination.id}`} className="text-decoration-none mb-4 d-inline-block text-muted">
+      <Link
+        to={`/destinations/${parentDestination.id}`}
+        className="text-decoration-none mb-4 d-inline-block text-muted"
+      >
         ← Back to {parentDestination.name}
       </Link>
 
@@ -56,7 +79,9 @@ export default function FoodPlacePage() {
           </p>
           <div className="d-flex align-items-center gap-3">
             <span className="text-warning fs-5">★★★★★</span>
-            <Badge bg="success" className="fs-6">{foodPlace.rating || 4.7}</Badge>
+            <Badge bg="success" className="fs-6">
+              {foodPlace.rating || 4.7}
+            </Badge>
             <span className="text-muted">{reviews.length} reviews</span>
           </div>
         </Col>
@@ -65,14 +90,18 @@ export default function FoodPlacePage() {
       {/* Image Gallery */}
       <Row className="mb-5">
         <Col>
-          <Carousel activeIndex={selectedImageIndex} onSelect={setSelectedImageIndex} interval={null}>
+          <Carousel
+            activeIndex={selectedImageIndex}
+            onSelect={setSelectedImageIndex}
+            interval={null}
+          >
             {images.map((img, i) => (
               <Carousel.Item key={i}>
                 <img
                   src={img}
                   alt={`${foodPlace.name} - ${i + 1}`}
                   className="d-block w-100 rounded"
-                  style={{ height: '500px', objectFit: 'cover' }}
+                  style={{ height: "500px", objectFit: "cover" }}
                 />
               </Carousel.Item>
             ))}
@@ -83,8 +112,17 @@ export default function FoodPlacePage() {
                 key={i}
                 src={img}
                 alt=""
-                className={`rounded border ${selectedImageIndex === i ? 'border-primary border-3' : 'border'}`}
-                style={{ width: '100px', height: '70px', objectFit: 'cover', cursor: 'pointer' }}
+                className={`rounded border ${
+                  selectedImageIndex === i
+                    ? "border-primary border-3"
+                    : "border"
+                }`}
+                style={{
+                  width: "100px",
+                  height: "70px",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                }}
                 onClick={() => setSelectedImageIndex(i)}
               />
             ))}
@@ -124,12 +162,14 @@ export default function FoodPlacePage() {
           <div className="p-4 bg-light rounded">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h5 className="mb-0">Cleanliness Score</h5>
-              <span className="display-6 fw-bold text-success">{cleanlinessScore}/10</span>
+              <span className="display-6 fw-bold text-success">
+                {cleanlinessScore}/10
+              </span>
             </div>
-            <ProgressBar 
-              now={cleanlinessScore * 10} 
-              variant="success" 
-              style={{ height: '12px' }} 
+            <ProgressBar
+              now={cleanlinessScore * 10}
+              variant="success"
+              style={{ height: "12px" }}
             />
             <p className="mt-3 text-muted small">
               Based on visitor reviews. Known for clean environment and hygiene.
@@ -148,7 +188,8 @@ export default function FoodPlacePage() {
                 <div>
                   <h6 className="fw-bold">{review.name}</h6>
                   <div className="text-warning mb-2">
-                    {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                    {"★".repeat(review.rating)}
+                    {"☆".repeat(5 - review.rating)}
                   </div>
                 </div>
                 <small className="text-muted">2 weeks ago</small>
@@ -156,7 +197,9 @@ export default function FoodPlacePage() {
               <p className="text-muted">{review.text}</p>
             </div>
           ))}
-          <Button variant="outline-primary">Show all {reviews.length} reviews</Button>
+          <Button variant="outline-primary">
+            Show all {reviews.length} reviews
+          </Button>
         </Col>
       </Row>
 
@@ -168,7 +211,7 @@ export default function FoodPlacePage() {
               <strong className="display-5 text-danger">${averagePrice}</strong>
               <span className="text-muted"> / meal</span>
             </div>
-            <Button size="lg" style={{ background: '#ff385c', border: 'none' }}>
+            <Button size="lg" style={{ background: "#ff385c", border: "none" }}>
               Reserve Table
             </Button>
           </div>
@@ -178,18 +221,28 @@ export default function FoodPlacePage() {
         </Col>
       </Row>
 
-      {/* Map Placeholder */}
+      {/* --- ADDITION 2: Replaced Map Placeholder --- */}
       <Row>
         <Col>
           <h2 className="h3 fw-bold mb-4">Where you'll be</h2>
-          <div 
-            className="bg-light rounded d-flex align-items-center justify-content-center"
-            style={{ height: '400px' }}
-          >
-            <p className="text-muted">Interactive map coming soon...</p>
+          <div className="rounded overflow-hidden" style={{ height: "400px" }}>
+            <iframe
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              scrolling="no"
+              marginHeight="0"
+              marginWidth="0"
+              src={mapSrc}
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
         </Col>
       </Row>
+      {/* ------------------------------------------- */}
     </Container>
   );
 }
