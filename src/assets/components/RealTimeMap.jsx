@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { useMap } from "react-leaflet/hooks";
+// 1. Import Leaflet's CSS - THIS IS THE MAIN FIX
+import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"; // 2. Import useMap directly
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
 // This small component will update the map's view to follow the marker
@@ -19,7 +20,6 @@ export default function RealTimeMap({
 }) {
   const WS_URL = "wss://echo.websocket.org";
 
-  // --- UPDATED LOGIC ---
   // Convert the {lat, lng} object prop into an array [lat, lng] for Leaflet
   const getCoordsAsArray = (coordsObj) => {
     if (coordsObj && coordsObj.lat && coordsObj.lng) {
@@ -65,10 +65,21 @@ export default function RealTimeMap({
   }[readyState];
 
   return (
-    <div>
+    // 3. Give the wrapper div 100% height to match the Card's body
+    <div style={{ height: "100%", width: "100%" }}>
       {/* Optionally show WebSocket status only if live */}
       {isLive && (
-        <p style={{ position: "absolute", zIndex: 1001, top: 10, left: 50 }}>
+        <p
+          style={{
+            position: "absolute",
+            zIndex: 1001,
+            top: 10,
+            left: 50,
+            background: "white",
+            padding: "5px",
+            borderRadius: "5px",
+          }}
+        >
           WebSocket Status: {connectionStatus}
         </p>
       )}
@@ -76,7 +87,7 @@ export default function RealTimeMap({
       <MapContainer
         center={markerPosition} // Leaflet always gets an array
         zoom={13}
-        style={{ height: "100%", width: "100%" }} // Use 100% to fill parent
+        style={{ height: "100%", width: "100%" }} // This will now fill the parent div
       >
         {/* This component makes the map follow the marker */}
         <ChangeView center={markerPosition} zoom={13} />
