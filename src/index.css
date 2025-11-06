@@ -25,3 +25,23 @@
 .react-datepicker__day--in-selecting-range {
   background: #ffe0e6 !important;
 }
+
+
+/* ------------------ */
+
+
+/* src/index.css (or your global CSS file) - (Code remains the same) */
+
+/* Hide the Google top frame */
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+} 
+body {
+  top: 0px !important; 
+}
+
+/* Hide Google Translate logo & popup footer */
+.goog-logo-link, .goog-te-gadget span {
+  display: none !important;
+}
+
