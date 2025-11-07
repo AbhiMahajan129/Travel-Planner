@@ -201,12 +201,16 @@ export default function HotelInfoPage() {
         </Col>
       </Row>
 
+      { <Link to={`/hotel/${hotelId}/feedback`} className="btn btn-sm btn-outline-primary"> 
+        Leave Feedback
+      </Link> }
+
       {/* Booking CTA */}
       <Row className="mb-5">
         <Col lg={8}>
           <div className="p-4 bg-light rounded d-flex justify-content-between align-items-center">
             <div>
-              <strong className="display-5 text-danger">${hotel.price}</strong>
+              <strong className="display-5 text-danger">Rs. {hotel.price}</strong>
               <span className="text-muted"> / night</span>
             </div>
             <Button size="lg" style={{ background: "#ff385c", border: "none" }}>

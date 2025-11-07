@@ -1,0 +1,143 @@
+// src/data/pages/Agencies.jsx
+import { useState } from 'react';
+import { Container, Row, Col, Card, Form, Button, InputGroup } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { popularAgencies } from '../mockData';
+
+export default function Agencies() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('rating');
+  const navigate = useNavigate();
+
+  // Sort agencies
+  const sortedAgencies = [...popularAgencies].sort((a, b) => {
+    if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
+    if (sortBy === 'name') return a.name.localeCompare(b.name);
+    return 0;
+  });
+
+  // Filter by search
+  const filteredAgencies = sortedAgencies.filter(agency =>
+    agency.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    agency.specialty?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <>
+      {/* HERO */}
+      <div className="py-5">
+        <Container>
+          <h1 className="display-4 fw-bold text-center">Travel Agencies</h1>
+          <p className="lead text-center mb-0 text-muted">Expert partners crafting your dream journeys</p>
+        </Container>
+      </div>
+
+      {/* CONSISTENT SEARCH BAR */}
+      <div 
+        className="bg-white shadow-lg rounded-pill p-3 my-4 sticky-top d-flex align-items-center" 
+        style={{ 
+          top: '80px', 
+          zIndex: 1500, 
+          maxWidth: '1200px', 
+          margin: '0 auto',
+          border: '1px solid #dee2e6'
+        }}
+      >
+        <Container className="p-0">
+          <Form className="d-flex align-items-center gap-3">
+            <InputGroup className="flex-grow-1" style={{ maxWidth: '700px' }}>
+              <Form.Control
+                type="text"
+                placeholder="Search agencies, specialties, or destinations..."
+                className="border-0 shadow-none"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{ 
+                  fontSize: '1rem', 
+                  height: '50px',
+                  borderRadius: '50px 0 0 50px'
+                }}
+              />
+              <InputGroup.Text 
+                className="bg-transparent border-0"
+                style={{ borderRadius: '0 50px 50px 0' }}
+              >
+                <Button
+                  variant="primary"
+                  className="rounded-pill d-flex align-items-center justify-content-center"
+                  style={{ 
+                    width: '50px', 
+                    height: '50px',
+                    padding: 0
+                  }}
+                >
+                  Search
+                </Button>
+              </InputGroup.Text>
+            </InputGroup>
+
+            <Form.Select
+              className="rounded-pill"
+              style={{ 
+                width: '200px', 
+                height: '50px',
+                fontSize: '0.95rem'
+              }}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="rating">Highest Rated</option>
+              <option value="name">A-Z</option>
+            </Form.Select>
+          </Form>
+        </Container>
+      </div>
+
+      {/* AGENCIES GRID */}
+      <Container className="my-5">
+        {filteredAgencies.length === 0 ? (
+          <div className="text-center py-5">
+            <p className="text-muted fs-4">No agencies found.</p>
+          </div>
+        ) : (
+          <Row className="g-4">
+            {filteredAgencies.map(agency => (
+              <Col md={6} lg={4} key={agency.id}>
+                <Card
+                  className="h-100 shadow-sm border-0 overflow-hidden position-relative"
+                  style={{ borderRadius: '16px', cursor: 'pointer' }}
+                  onClick={() => navigate(`/agencies/${agency.id}`)}
+                >
+                  <div
+                    className="position-absolute top-0 start-0 w-100 h-100"
+                    style={{
+                      backgroundImage: `url(${agency.image})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      filter: 'brightness(0.75)',
+                      zIndex: 0
+                    }}
+                  />
+                  <Card.Body className="position-relative text-white d-flex flex-column justify-content-end" style={{ zIndex: 1, minHeight: '320px' }}>
+                    <div>
+                      <Card.Title className="h5 mb-1">{agency.name}</Card.Title>
+                      <p className="small mb-2">{agency.specialty}</p>
+                      <div className="d-flex align-items-center mb-2">
+                        <span className="text-warning me-1">Rating</span>
+                        <small>{agency.rating?.toFixed(1)}</small>
+                        <span className="ms-2 text-white-50">• {agency.destinations} destinations</span>
+                      </div>
+                      <Button variant="light" size="sm" className="w-100 fw-bold">
+                        View Details
+                      </Button>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
+      </Container>
+    </>
+  );
+}

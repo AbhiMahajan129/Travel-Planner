@@ -254,6 +254,10 @@ export default function TouristSpotPage() {
         </Col>
       </Row>
 
+      <Link to={`/site/${siteId}/feedback`} className="btn btn-sm btn-outline-primary">
+        Leave Feedback
+      </Link>
+
       {/* Nearby Recommendations */}
       <Row className="mb-5">
         <Col>

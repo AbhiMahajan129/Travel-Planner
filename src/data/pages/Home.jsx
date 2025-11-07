@@ -11,31 +11,39 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { popularPackages, destinations } from "../mockData";
-import DraggableItem from "./DraggableItem";
+  popularPackages,
+  destinations,
+  popularSites,
+  popularHotels,
+  popularAgencies,
+} from "../mockData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import RealTimeMap from "../../assets/components/RealTimeMap";
 
 export default function Home() {
-  const [tripItems, setTripItems] = useState([]);
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
-  const [showCalendar, setShowCalendar] = useState(null); // 'checkin' | 'checkout' | null
+  const [showCalendar, setShowCalendar] = useState(null);
 
-  // GUEST COUNTER
+  const [siteIndex, setSiteIndex] = useState(0);
+  const [hotelIndex, setHotelIndex] = useState(0);
+  const [agencyIndex, setAgencyIndex] = useState(0);
+
+  const scrollSection = (section, delta) => {
+    if (section === "sites")
+      setSiteIndex((prev) =>
+        Math.max(0, Math.min(prev + delta, popularSites.length - 5))
+      );
+    if (section === "hotels")
+      setHotelIndex((prev) =>
+        Math.max(0, Math.min(prev + delta, popularHotels.length - 5))
+      );
+    if (section === "agencies")
+      setAgencyIndex((prev) =>
+        Math.max(0, Math.min(prev + delta, popularAgencies.length - 5))
+      );
+  };
+
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
@@ -43,49 +51,49 @@ export default function Home() {
 
   const totalGuests = adults + children + infants;
 
-  // REFS FOR CLICK OUTSIDE
   const calendarRef = useRef(null);
   const guestsRef = useRef(null);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor)
-  );
+  const [scrollIndex, setScrollIndex] = useState(0);
+  const packagesPerPage = 5; // Show 5 at a time
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const activeIdx = tripItems.findIndex((i) => i.id === active.id);
-    const overIdx = tripItems.findIndex((i) => i.id === over.id);
-    setTripItems((items) => arrayMove(items, activeIdx, overIdx));
-  };
-
-  const addToTrip = (item) => {
-    if (!tripItems.find((i) => i.id === item.id)) {
-      setTripItems((prev) => [...prev, { id: item.id, content: item.name }]);
-    }
-  };
-
-  // CLICK OUTSIDE TO CLOSE
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Close Calendar
       if (calendarRef.current && !calendarRef.current.contains(event.target)) {
         setShowCalendar(null);
       }
-      // Close Guests
       if (guestsRef.current && !guestsRef.current.contains(event.target)) {
         setShowGuests(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const scrollLeft = () => {
+    setScrollIndex(Math.max(0, scrollIndex - packagesPerPage));
+  };
+
+  const scrollRight = () => {
+    setScrollIndex(
+      Math.min(
+        sortedPackages.length - packagesPerPage,
+        scrollIndex + packagesPerPage
+      )
+    );
+  };
+
+  const sortedPackages = [...popularPackages].sort(
+    (a, b) => (b.rating || 0) - (a.rating || 0)
+  );
+  const visiblePackages = sortedPackages.slice(
+    scrollIndex,
+    scrollIndex + packagesPerPage
+  );
+
   return (
     <>
-      {/* 1. IMAGE CAROUSEL */}
+      {/* IMAGE CAROUSEL */}
       <Carousel className="mb-5" indicators={false}>
         {destinations.slice(0, 3).map((dest) => (
           <Carousel.Item key={dest.id}>
@@ -117,7 +125,7 @@ export default function Home() {
         ))}
       </Carousel>
 
-      {/* 2. SEARCH BAR WITH CLICK-OUTSIDE */}
+      {/* SEARCH BAR */}
       <div
         className="bg-white shadow-lg rounded-pill p-2 mb-5 sticky-top d-flex align-items-center"
         style={{
@@ -129,9 +137,9 @@ export default function Home() {
       >
         <Container className="p-0">
           <Form className="d-flex align-items-center">
-            <div className="grow d-flex">
+            <div className="glow d-flex">
               {/* WHERE */}
-              <div className="border-end px-3 py-2 grow">
+              <div className="border-end px-3 py-2 glow">
                 <small className="text-muted d-block">Where</small>
                 <Form.Control
                   type="text"
@@ -257,8 +265,7 @@ export default function Home() {
                       border: "none",
                     }}
                     onClick={(e) => {
-                      e.stopPropagation(); // ← THIS FIXES IT
-                      // Add search logic here later
+                      e.stopPropagation();
                       console.log("Search clicked!", {
                         arrivalDate,
                         departureDate,
@@ -364,133 +371,296 @@ export default function Home() {
         </Container>
       </div>
 
-      {/* 3. REST OF PAGE */}
+      {/* MAIN CONTENT */}
       <Container className="my-5">
-        <Row className="text-center mb-5">
-          <Col>
-            <h1 className="display-4">Discover Your Next Adventure</h1>
-            <p className="lead">
-              Hotels • Restaurants • Sites • Festivals • Agencies
-            </p>
-          </Col>
-        </Row>
-
-        <h2 className="mb-4" id="packages">
-          Popular Packages
-        </h2>
-        <Row className="g-4 mb-5">
-          {popularPackages.map((pkg) => (
-            <Col md={6} key={pkg.id}>
-              <Card className="h-100 shadow-sm">
-                <Card.Body>
-                  <Card.Title>{pkg.title}</Card.Title>
-                  <Card.Text>
-                    <strong>${pkg.price}</strong>
-                    <ul className="mt-2 small">
-                      {pkg.items.map((it, i) => (
-                        <li key={i}>{it}</li>
-                      ))}
-                    </ul>
-                  </Card.Text>
-                  <Button variant="primary">Book Now</Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-
-        <h2 className="mb-4">Explore Destinations</h2>
-        <Row className="g-4 mb-5">
-          {destinations.map((dest) => (
-            <Col md={4} key={dest.id}>
-              <Card
-                className="h-100 shadow-sm"
-                as={Link}
-                to={`/destinations/${dest.id}`}
-              >
-                <Card.Img
-                  variant="top"
-                  src={dest.image}
-                  style={{ height: "200px", objectFit: "cover" }}
-                />
-                <Card.Body>
-                  <Card.Title>{dest.name}</Card.Title>
-                  <Card.Text>{dest.description}</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-        {/* map */}
-        <h2 className="mb-4">Live Map</h2>
-        <Row className="g-4 mb-5">
-          <Col>
-            <Card className="shadow-sm" style={{ height: "600px" }}>
-              <Card.Body className="p-0 h-100">
-                <RealTimeMap />
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-
-        <h2 className="mb-4" id="planner">
-          Plan Your Own Trip
-        </h2>
-        <Row>
-          <Col md={6}>
-            <h5>Add Items</h5>
-            <div className="mb-3">
-              {destinations.flatMap((d) =>
-                [...d.hotels, ...d.restaurants, ...d.sites].map((item) => (
-                  <Button
-                    key={item.id}
-                    variant="outline-primary"
-                    size="sm"
-                    className="me-2 mb-2"
-                    onClick={() => addToTrip(item)}
-                  >
-                    {item.name}
-                  </Button>
-                ))
-              )}
-            </div>
-          </Col>
-
-          <Col md={6}>
-            <h5>Your Itinerary</h5>
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
+        {/* POPULAR PACKAGES */}
+        <div className="mb-5">
+          <div className="d-flex align-items-center justify-content-between mb-4">
+            <h2 className="h3 fw-bold mb-0">Popular Packages</h2>
+            <Link
+              to="/packages"
+              className="text-primary fw-bold text-decoration-none"
             >
-              <SortableContext
-                items={tripItems.map((i) => i.id)}
-                strategy={verticalListSortingStrategy}
+              See More
+            </Link>
+          </div>
+          <div className="position-relative">
+            <Button
+              variant="light"
+              className="position-absolute start-0 top-50 translate-middle-y shadow rounded-circle"
+              style={{ zIndex: 10, width: "50px", height: "50px" }}
+              onClick={scrollLeft}
+              disabled={scrollIndex === 0}
+            >
+              <i className="bi bi-chevron-left fs-4"></i>
+            </Button>
+            <Button
+              variant="light"
+              className="position-absolute end-0 top-50 translate-middle-y shadow rounded-circle"
+              style={{ zIndex: 10, width: "50px", height: "50px" }}
+              onClick={scrollRight}
+              disabled={scrollIndex >= sortedPackages.length - packagesPerPage}
+            >
+              <i className="bi bi-chevron-right fs-4"></i>
+            </Button>
+
+            <div
+              className="d-flex gap-4 overflow-hidden"
+              style={{ scrollBehavior: "smooth" }}
+            >
+              {visiblePackages.map((pkg) => (
+                <Card
+                  key={pkg.id}
+                  className="shrink-0 shadow-sm position-relative overflow-hidden"
+                  style={{ width: "320px", borderRadius: "16px" }}
+                >
+                  <Link
+                    to={`/packages/${pkg.id}`}
+                    className="text-decoration-none text-white"
+                  >
+                    <div
+                      className="position-absolute top-0 start-0 w-100 h-100"
+                      style={{
+                        backgroundImage: `url(${pkg.image})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        filter: "brightness(0.7)",
+                        zIndex: 0,
+                      }}
+                    />
+                    <div
+                      className="position-relative p-4"
+                      style={{ zIndex: 1 }}
+                    >
+                      <Card.Title className="h5 mb-1">{pkg.title}</Card.Title>
+                      {pkg.rating && (
+                        <div className="d-flex align-items-center mb-2">
+                          <span className="text-warning me-1">★★★★★</span>
+                          <small>{pkg.rating.toFixed(1)}</small>
+                        </div>
+                      )}
+                      <Card.Text className="mb-3">
+                        <strong className="fs-3">Rs. {pkg.price}</strong>
+                        <span className="small ms-1 text-white-50">
+                          /person
+                        </span>
+                      </Card.Text>
+                      <ul
+                        className="small mb-3 text-white-50"
+                        style={{ opacity: 0.9 }}
+                      >
+                        {pkg.items.slice(0, 3).map((it, i) => (
+                          <li key={i}>{it}</li>
+                        ))}
+                        {pkg.items.length > 3 && (
+                          <li>+ {pkg.items.length - 3} more</li>
+                        )}
+                      </ul>
+                      <Button
+                        variant="light"
+                        size="sm"
+                        className="w-100 fw-bold"
+                      >
+                        Book Now
+                      </Button>
+                    </div>
+                  </Link>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* POPULAR SITES */}
+        <div className="mb-5">
+          <div className="d-flex align-items-center justify-content-between mb-4">
+            <h2 className="h3 fw-bold mb-0">Popular Places to Visit</h2>
+            <Link
+              to="/sites"
+              className="text-primary fw-bold text-decoration-none"
+            >
+              See More
+            </Link>
+          </div>
+          <div className="position-relative">
+            <Button
+              variant="light"
+              className="position-absolute start-0 top-50 translate-middle-y shadow rounded-circle"
+              style={{ zIndex: 10, width: "50px", height: "50px" }}
+              onClick={() => scrollSection("sites", -5)}
+              disabled={siteIndex === 0}
+            >
+              <i className="bi bi-chevron-left fs-4"></i>
+            </Button>
+            <Button
+              variant="light"
+              className="position-absolute end-0 top-50 translate-middle-y shadow rounded-circle"
+              style={{ zIndex: 10, width: "50px", height: "50px" }}
+              onClick={() => scrollSection("sites", 5)}
+              disabled={siteIndex >= popularSites.length - 5}
+            >
+              <i className="bi bi-chevron-right fs-4"></i>
+            </Button>
+            <div
+              className="d-flex gap-4 overflow-hidden"
+              style={{ scrollBehavior: "smooth" }}
+            >
+              {popularSites.slice(siteIndex, siteIndex + 5).map((site) => (
+                <Card
+                  key={site.id}
+                  className="shrink-0 shadow-sm position-relative overflow-hidden"
+                  style={{ width: "300px", borderRadius: "16px" }}
+                >
+                  <Link
+                    to={`/site/${site.id}`}
+                    className="text-decoration-none text-white"
+                  >
+                    <div
+                      className="position-absolute top-0 start-0 w-100 h-100"
+                      style={{
+                        backgroundImage: `url(${site.image})`,
+                        backgroundSize: "cover",
+                        filter: "brightness(0.7)",
+                        zIndex: 0,
+                      }}
+                    />
+                    <div
+                      className="position-relative p-4"
+                      style={{ zIndex: 1 }}
+                    >
+                      <Card.Title className="h5 mb-1">{site.name}</Card.Title>
+                      <small className="d-block mb-2">{site.location}</small>
+                      <div className="d-flex align-items-center mb-2">
+                        <span className="text-warning me-1">★★★★★</span>
+                        <small>{site.rating}</small>
+                      </div>
+                      <p className="small mb-2">{site.description}</p>
+                      <Button
+                        variant="light"
+                        size="sm"
+                        className="w-100 fw-bold"
+                      >
+                        Explore
+                      </Button>
+                    </div>
+                  </Link>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* POPULAR HOTELS */}
+        <div className="mb-5">
+          <div className="d-flex align-items-center justify-content-between mb-4">
+            <h2 className="h3 fw-bold mb-0">Top Hotels</h2>
+            <Link
+              to="/hotels"
+              className="text-primary fw-bold text-decoration-none"
+            >
+              See More
+            </Link>
+          </div>
+          <div className="d-flex gap-4 overflow-hidden">
+            {popularHotels.slice(hotelIndex, hotelIndex + 5).map((hotel) => (
+              <Card
+                key={hotel.id}
+                className="shrink-0 shadow-sm position-relative overflow-hidden"
+                style={{ width: "300px", borderRadius: "16px" }}
               >
-                <div className="border rounded p-3 min-vh-50 bg-light">
-                  {tripItems.length === 0 ? (
-                    <p className="text-muted">
-                      Add items above to build your trip!
-                    </p>
-                  ) : (
-                    tripItems.map((item) => (
-                      <DraggableItem
-                        key={item.id}
-                        id={item.id}
-                        content={item.content}
-                      />
-                    ))
-                  )}
-                </div>
-              </SortableContext>
-            </DndContext>
-            {tripItems.length > 0 && (
-              <Button variant="success" className="mt-3">
-                Save Trip
-              </Button>
-            )}
-          </Col>
-        </Row>
+                <Link
+                  to={`/hotel/${hotel.id}`}
+                  className="text-decoration-none text-white"
+                >
+                  <div
+                    className="position-absolute top-0 start-0 w-100 h-100"
+                    style={{
+                      backgroundImage: `url(${hotel.image})`,
+                      backgroundSize: "cover",
+                      filter: "brightness(0.7)",
+                      zIndex: 0,
+                    }}
+                  />
+                  <div className="position-relative p-4" style={{ zIndex: 1 }}>
+                    <Card.Title className="h5 mb-1">{hotel.name}</Card.Title>
+                    <small className="d-block mb-2">{hotel.location}</small>
+                    <div className="d-flex align-items-center mb-2">
+                      <span className="text-warning me-1">★★★★★</span>
+                      <small>{hotel.rating}</small>
+                      <span className="badge bg-light text-dark ms-2">
+                        {hotel.type}
+                      </span>
+                    </div>
+                    <p className="mb-2 fs-5 fw-bold">Rs. {hotel.price}/night</p>
+                    <Button variant="light" size="sm" className="w-100 fw-bold">
+                      Book Now
+                    </Button>
+                  </div>
+                </Link>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* POPULAR AGENCIES */}
+        <div className="mb-5">
+          <div className="d-flex align-items-center justify-content-between mb-4">
+            <h2 className="h3 fw-bold mb-0">Top Travel Agencies</h2>
+            <Link
+              to="/agencies"
+              className="text-primary fw-bold text-decoration-none"
+            >
+              See More
+            </Link>
+          </div>
+          <div className="d-flex gap-4 overflow-hidden">
+            {popularAgencies
+              .slice(agencyIndex, agencyIndex + 5)
+              .map((agency) => (
+                <Card
+                  key={agency.id}
+                  className="shrink-0 shadow-sm position-relative overflow-hidden"
+                  style={{ width: "300px", borderRadius: "16px" }}
+                >
+                  <Link
+                    to={`/agencies/${agency.id}`}
+                    className="text-decoration-none text-white"
+                  >
+                    <div
+                      className="position-absolute top-0 start-0 w-100 h-100"
+                      style={{
+                        backgroundImage: `url(${agency.image})`,
+                        backgroundSize: "cover",
+                        filter: "brightness(0.7)",
+                        zIndex: 0,
+                      }}
+                    />
+                    <div
+                      className="position-relative p-4"
+                      style={{ zIndex: 1 }}
+                    >
+                      <Card.Title className="h5 mb-1">{agency.name}</Card.Title>
+                      <div className="d-flex align-items-center mb-2">
+                        <span className="text-warning me-1">★★★★★</span>
+                        <small>{agency.rating}</small>
+                      </div>
+                      <p className="small mb-1">{agency.specialty}</p>
+                      <p className="small mb-3">
+                        {agency.destinations} Destinations
+                      </p>
+                      <Button
+                        variant="light"
+                        size="sm"
+                        className="w-100 fw-bold"
+                      >
+                        Contact
+                      </Button>
+                    </div>
+                  </Link>
+                </Card>
+              ))}
+          </div>
+        </div>
       </Container>
     </>
   );

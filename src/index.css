@@ -77,69 +77,14 @@ iframe.goog-te-banner-frame.skiptranslate {
   background: #ffe0e6 !important;
 }
 
-/* ------------------ */
-
-/* src/index.css (or your global CSS file) - (Code remains the same) */
-
-/* Hide the Google top frame */
-.goog-te-banner-frame.skiptranslate {
-  display: none !important;
-}
-body {
-  top: 0px !important;
-}
-
-/* Hide Google Translate logo & popup footer */
-.goog-logo-link,
-.goog-te-gadget span {
-  display: none !important;
-}
-
-.goog-te-banner-frame.skiptranslate,
-.goog-te-gadget-icon {
-  display: none !important;
-}
+/* Ensure full height and sticky footer */
 html,
-body {
-  position: static !important;
-  top: 0 !important;
-}
-#google_translate_element select {
-  background-color: white;
-  border-radius: 8px;
-  padding: 5px 8px;
-  border: 1px solid #ccc;
-  cursor: pointer;
+body,
+#root {
+  height: 100%;
 }
 
-/* === Hide Google Translate branding === */
-.goog-logo-link {
-  display: none !important;
-}
-
-.goog-te-gadget span {
-  display: none !important;
-}
-
-/* === Style the language dropdown === */
-.goog-te-gadget {
-  font-family: "Inter", sans-serif !important;
-  background: transparent !important;
-  border: none !important;
-  font-size: 14px;
-}
-
-.goog-te-combo {
-  border: 1px solid #ccc !important;
-  border-radius: 6px;
-  padding: 4px 8px;
-  font-size: 14px;
-  background-color: white;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.goog-te-combo:hover {
-  border-color: #007bff !important;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+#root {
+  display: flex;
+  flex-direction: column;
 }

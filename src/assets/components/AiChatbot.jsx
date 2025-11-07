@@ -110,7 +110,7 @@ export default function AiChatbot() {
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             disabled={isLoading}
-            className="flex-grow-1"
+            className="grow"
           />
           <Button variant="primary" type="submit" disabled={isLoading}>
             Send

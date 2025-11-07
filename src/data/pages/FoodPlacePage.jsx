@@ -203,6 +203,10 @@ export default function FoodPlacePage() {
         </Col>
       </Row>
 
+      <Link to={`/food/${foodId}/feedback`} className="btn btn-sm btn-outline-danger">
+        Rate This Restaurant
+      </Link>
+
       {/* Average Price / Reservation CTA */}
       <Row className="mb-5">
         <Col lg={8}>
