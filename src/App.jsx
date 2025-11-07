@@ -13,22 +13,23 @@ import EmergencyButton from "./assets/components/EmergencyButton";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
 import ToastNotification from "./assets/components/ToastNotification.jsx";
 // src/App.jsx
-import SiteFeedbackPage from './data/pages/SiteFeedbackPage';
-import FoodFeedbackPage from './data/pages/FoodFeedbackPage';
-import HotelFeedbackPage from './data/pages/HotelFeedbackPage';
-import Packages from './data/pages/Packages';
-import PackageDetail from './data/pages/PackageDetail';
-import PlanTrip from './data/pages/PlanTrip';
-import PlanTripForm from './data/pages/PlanTripForm';
-import MyTrips from './data/pages/MyTrips';
-import Sites from './data/pages/Sites';
-import Hotels from './data/pages/Hotels';
-import Restaurants from './data/pages/Restaurants';
-import Agencies from './data/pages/Agencies';
-import AgencyDetail from './data/pages/AgencyDetail';
-import AgencyFeedback from './data/pages/AgencyFeedback';
-import Experiences from './data/pages/Experiences';
-import ExperienceDetail from './data/pages/ExperienceDetail';
+import SiteFeedbackPage from "./data/pages/SiteFeedbackPage";
+import FoodFeedbackPage from "./data/pages/FoodFeedbackPage";
+import HotelFeedbackPage from "./data/pages/HotelFeedbackPage";
+import Packages from "./data/pages/Packages";
+import PackageDetail from "./data/pages/PackageDetail";
+import PlanTrip from "./data/pages/PlanTrip";
+import PlanTripForm from "./data/pages/PlanTripForm";
+import MyTrips from "./data/pages/MyTrips";
+import Sites from "./data/pages/Sites";
+import Hotels from "./data/pages/Hotels";
+import Restaurants from "./data/pages/Restaurants";
+import Agencies from "./data/pages/Agencies";
+import AgencyDetail from "./data/pages/AgencyDetail";
+import AgencyFeedback from "./data/pages/AgencyFeedback";
+import Experiences from "./data/pages/Experiences";
+import ExperienceDetail from "./data/pages/ExperienceDetail";
+import DustbinFinder from "./assets/components/DustbinFinder.jsx";
 
 function App() {
   return (
@@ -82,25 +83,38 @@ function App() {
         />
         <Route path="/food/:foodId" element={<FoodPlacePage />} />
         <Route path="/site/:siteId/feedback" element={<SiteFeedbackPage />} />
-        <Route path="/food/:restaurantId/feedback" element={<FoodFeedbackPage />} />
-        <Route path="/hotel/:hotelId/feedback" element={<HotelFeedbackPage />} />
+        <Route
+          path="/food/:restaurantId/feedback"
+          element={<FoodFeedbackPage />}
+        />
+        <Route
+          path="/hotel/:hotelId/feedback"
+          element={<HotelFeedbackPage />}
+        />
         <Route path="/packages" element={<Packages />} />
         <Route path="/packages/:id" element={<PackageDetail />} />
         <Route path="/hotels" element={<Hotels />} />
         <Route path="/plan-trip" element={<PlanTrip />} />
-        <Route path="/plan-trip/form" element={<PlanTripForm />} /> 
+        <Route path="/plan-trip/form" element={<PlanTripForm />} />
         <Route path="/my-trips" element={<MyTrips />} />
         <Route path="/sites" element={<Sites />} />
         <Route path="/restaurants" element={<Restaurants />} />
         <Route path="/agencies" element={<Agencies />} />
         <Route path="/agencies/:agencyId" element={<AgencyDetail />} />
-        <Route path="/agencies/:agencyId/feedback" element={<AgencyFeedback />} />
+        <Route
+          path="/agencies/:agencyId/feedback"
+          element={<AgencyFeedback />}
+        />
         <Route path="/experiences" element={<Experiences />} />
-        <Route path="/experiences/:experienceId" element={<ExperienceDetail />} />
+        <Route
+          path="/experiences/:experienceId"
+          element={<ExperienceDetail />}
+        />
       </Routes>
       <ToastNotification />
       <Footer />
       <AiChatbot />
+      <DustbinFinder />
       <EmergencyButton />
     </>
   );

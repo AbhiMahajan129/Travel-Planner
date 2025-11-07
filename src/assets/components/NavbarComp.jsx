@@ -11,22 +11,21 @@ import { useLocation as useGeoLocation } from "../../hooks/useLocation";
 export default function NavbarComp() {
   const { loading, location, error, getLocation } = useGeoLocation();
   const { isSignedIn } = useAuth();
-  const locationPath = useLocation(); // React Router location
+  const locationPath = useLocation();
 
+  // --- Error handler for geolocation ---
   useEffect(() => {
-    if (error) {
-      alert(`Error getting location: ${error}`);
-    }
+    if (error) alert(`Error getting location: ${error}`);
   }, [error]);
 
-  // Google Translate Script
+  // --- Google Translate Script Loader ---
   useEffect(() => {
     if (!document.querySelector("#google-translate-script")) {
-      const addScript = document.createElement("script");
-      addScript.id = "google-translate-script";
-      addScript.src =
+      const script = document.createElement("script");
+      script.id = "google-translate-script";
+      script.src =
         "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      document.body.appendChild(addScript);
+      document.body.appendChild(script);
     }
 
     window.googleTranslateElementInit = () => {
@@ -44,7 +43,7 @@ export default function NavbarComp() {
     };
   }, []);
 
-  // Nav items config
+  // --- Nav items config ---
   const navItems = [
     {
       to: "/",
@@ -71,14 +70,14 @@ export default function NavbarComp() {
   return (
     <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm">
       <Container>
-        {/* Brand */}
+        {/* BRAND */}
         <Navbar.Brand as={Link} to="/" className="fw-bold fs-4 text-primary">
           TravelPlanner
         </Navbar.Brand>
 
         <Navbar.Toggle />
         <Navbar.Collapse>
-          {/* CENTER: Nav Links with Icons + Active Underline */}
+          {/* CENTER NAV LINKS */}
           <Nav className="mx-auto">
             {navItems.map((item) => {
               const isActive = locationPath.pathname === item.to;
@@ -87,33 +86,25 @@ export default function NavbarComp() {
                   key={item.to}
                   as={Link}
                   to={item.to}
-                  className={`d-flex align-items-center gap-2 position-relative px-3 py-2 text-dark fw-medium ${
-                    isActive ? "text-primary" : ""
+                  className={`d-flex align-items-center gap-2 px-3 py-2 fw-medium ${
+                    isActive ? "text-primary" : "text-dark"
                   }`}
-                  style={{
-                    transition: "color 0.3s ease",
-                  }}
+                  style={{ transition: "color 0.3s ease" }}
                 >
                   <img
                     src={item.img}
                     alt={item.label}
                     style={{
-                      width: item.label === "Packages" ? "40px" : "35px",
-                      height: "auto",
-
-                      transition: "filter 0.3s ease",
+                      width: "30px",
+                      height: "30px",
+                      objectFit: "contain",
                     }}
                   />
                   {item.label}
-
-                  {/* Grey Underline for Active */}
                   {isActive && (
                     <span
                       className="position-absolute start-0 bottom-0 w-100 bg-secondary"
-                      style={{
-                        height: "2px",
-                        borderRadius: "1px",
-                      }}
+                      style={{ height: "2px", borderRadius: "1px" }}
                     />
                   )}
                 </Nav.Link>
@@ -121,34 +112,35 @@ export default function NavbarComp() {
             })}
           </Nav>
 
-          {/* RIGHT: Location + Translate + Auth */}
-          <Nav className="align-items-center gap-2">
-            {/* Coordinates */}
+          {/* RIGHT SIDE: LOCATION + TRANSLATE + AUTH */}
+          <Nav className="align-items-center gap-3">
+            {/* Location Coordinates */}
             {location && (
               <span className="text-muted small">
                 {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
               </span>
             )}
 
-            {/* Google Translate */}
-            <div id="google_translate_element" className="me-2">
-              <Button
-                variant="light"
-                className="d-flex justify-content-center align-items-center"
-                onClick={getLocation}
-                disabled={loading}
-                style={{ width: "45px", height: "45px", padding: 0 }}
-                title="Get Location"
-              >
-                {loading ? (
-                  <Spinner as="span" animation="border" size="sm" />
-                ) : (
-                  <i className="bi bi-globe fs-4"></i>
-                )}
-              </Button>
-            </div>
+            {/* Get Location Button */}
+            <Button
+              variant="light"
+              className="d-flex justify-content-center align-items-center"
+              onClick={getLocation}
+              disabled={loading}
+              style={{ width: "45px", height: "45px", padding: 0 }}
+              title="Get My Location"
+            >
+              {loading ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                <i className="bi bi-geo-alt fs-5 text-primary"></i>
+              )}
+            </Button>
 
-            {/* Auth */}
+            {/* Google Translate */}
+            <div id="google_translate_element" className="me-2" />
+
+            {/* Auth Buttons */}
             {!isSignedIn ? (
               <Button as={Link} to="/login" variant="outline-primary" size="sm">
                 <i className="bi bi-person me-1"></i> Login

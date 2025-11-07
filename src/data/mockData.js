@@ -338,7 +338,9 @@ export const destinations = [
         name: "Tsomgo Lake (Changu Lake)",
         description:
           "A glacial lake located at a high altitude. The lake is revered by the local Sikkimese people.",
-        images: ["https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/cd/ac/a3/tsomgo-lake.jpg?w=1200&h=-1&s=1"],
+        images: [
+          "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/cd/ac/a3/tsomgo-lake.jpg?w=1200&h=-1&s=1",
+        ],
         rating: 4.8,
         highlights: [
           "Glacial Lake",
@@ -665,20 +667,23 @@ export const popularPackages = [
   {
     id: "p1",
     title: "Assam Wildlife Safari",
-    image: "https://www.kaziranganationalpark-india.com/blog/wp-content/uploads/2023/11/kaziranga-national-park.jpg",
+    image:
+      "https://www.kaziranganationalpark-india.com/blog/wp-content/uploads/2023/11/kaziranga-national-park.jpg",
     price: 15000,
     rating: 4.9,
     duration: 5,
     items: [
       "Kaziranga Jeep Safari",
       "Elephant Safari",
+      "Tea Garden Tour",
       "Kamakhya Temple Visit",
     ],
   },
   {
     id: "p2",
     title: "Meghalaya Living Bridges",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNae6hxDzC6H5UlYfUbEuA1ue0fb2ELDECPA&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNae6hxDzC6H5UlYfUbEuA1ue0fb2ELDECPA&s",
     price: 18000,
     rating: 4.8,
     duration: 6,
@@ -700,7 +705,8 @@ export const popularPackages = [
   {
     id: "p4",
     title: "Tawang Monastery Trail",
-    image: "https://www.luxurytrailsofindia.com/wp-content/uploads/2016/07/Tawang-Monastery-1.jpg",
+    image:
+      "https://www.luxurytrailsofindia.com/wp-content/uploads/2016/07/Tawang-Monastery-1.jpg",
     price: 25000,
     rating: 4.8,
     duration: 8,
@@ -714,7 +720,8 @@ export const popularPackages = [
   {
     id: "p5",
     title: "Majuli River Island Retreat",
-    image: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Majuli_Island.jpg",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/2/2b/Majuli_Island.jpg",
     price: 13500,
     rating: 4.7,
     duration: 4,
@@ -722,24 +729,23 @@ export const popularPackages = [
       "Ferry to Majuli Island",
       "Satra Monastery Tour",
       "Cycle Ride in Villages",
-      "Assamese Cultural Evening"
+      "Assamese Cultural Evening",
     ],
   },
   {
     id: "p6",
     title: "Arunachal Hidden Valleys",
-    image: "https://www.holidify.com/images/cmsuploads/compressed/Ziro_Valley_20190718124529.jpg",
+    image:
+      "https://imgs.search.brave.com/NPhEXvlAX2a6ttOkfpp4BCBEh0b4xVASja5BorVzLRY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4x/LnRyaXBvdG8uY29t/L21lZGlhL2ZpbHRl/ci9ubC9pbWcvMjMz/MTM3My9JbWFnZS8x/Njg1OTc3NDMxX2No/dWdfdmFsbGV5X2Js/b2dfMS5qcGcud2Vi/cA",
     price: 28000,
     rating: 5.0,
     duration: 9,
     items: [
-      "Ziro Valley Music Festival (Seasonal)",
+      "Ziro Valley Music Fest",
       "Apatani Tribal Homestay",
-      "Trekking to Talley Valley",
-      "Daporijo & Pasighat",
-      "Rafting on Siang River"
+      "Rafting on Siang River",
     ],
-  }
+  },
 ];
 
 // === POPULAR HOTELS ===
@@ -837,7 +843,8 @@ export const popularSites = [
     name: "Kaziranga National Park",
     location: "Assam",
     rating: 4.9,
-    image: "https://www.kaziranganationalpark-india.com/blog/wp-content/uploads/2022/11/Kaziranga-National-Park-in-Assam_1553856939.jpg",
+    image:
+      "https://www.kaziranganationalpark-india.com/blog/wp-content/uploads/2022/11/Kaziranga-National-Park-in-Assam_1553856939.jpg",
     price: 1000,
     description: "Home of the One-Horned Rhino",
   },
@@ -846,7 +853,8 @@ export const popularSites = [
     name: "Living Root Bridge",
     location: "Meghalaya",
     rating: 4.9,
-    image: "https://travenjo.com/wp-content/uploads/2019/06/Living-Root-Bridge-Mawlynnong-.jpg?x58748",
+    image:
+      "https://travenjo.com/wp-content/uploads/2019/06/Living-Root-Bridge-Mawlynnong-.jpg?x58748",
     price: 100,
     description: "Bio-engineering marvel",
   },
@@ -855,7 +863,8 @@ export const popularSites = [
     name: "Tsomgo Lake",
     location: "Sikkim",
     rating: 4.8,
-    image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/cd/ac/a3/tsomgo-lake.jpg?w=1200&h=-1&s=1",
+    image:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/cd/ac/a3/tsomgo-lake.jpg?w=1200&h=-1&s=1",
     price: 150,
     description: "High-altitude glacial lake",
   },
@@ -864,7 +873,8 @@ export const popularSites = [
     name: "Tawang Monastery",
     location: "Arunachal Pradesh",
     rating: 4.9,
-    image: "https://media1.thrillophilia.com/filestore/nigyng7w10scygecc4c4b62bmg6h_tawang-monastery-1.jpg",
+    image:
+      "https://media1.thrillophilia.com/filestore/nigyng7w10scygecc4c4b62bmg6h_tawang-monastery-1.jpg",
     price: 50,
     description: "Largest monastery in India",
   },
@@ -930,257 +940,272 @@ export const popularAgencies = [
     ],
   },
   {
-  id: "a4",
-  name: "Assam Heritage Tours",
-  rating: 4.7,
-  image:
-    "https://images.pexels.com/photos/2082109/pexels-photo-2082109.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  specialty: "Tea Gardens & River Cruises",
-  destinations: 6,
-  description:
-    "Discover Assam’s tea trails, Brahmaputra river cruises, and cultural tours showcasing traditional villages and wildlife.",
-  years: 9,
-  clients: 1100,
-  services: [
-    "Tea Estate Visits",
-    "Brahmaputra River Cruise",
-    "Cultural Village Tours",
-    "Wildlife Safaris",
-    "Local Handicraft Experiences",
-  ],
-},
-{
-  id: "a5",
-  name: "Nagaland Explorer Co.",
-  rating: 4.8,
-  image:
-    "https://images.pexels.com/photos/2397653/pexels-photo-2397653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  specialty: "Tribal & Festival Tours",
-  destinations: 4,
-  description:
-    "Experience Nagaland’s vibrant tribal heritage, Hornbill Festival, and scenic mountain adventures with local experts.",
-  years: 11,
-  clients: 850,
-  services: [
-    "Hornbill Festival Packages",
-    "Tribal Village Homestays",
-    "Mountain Trekking",
-    "Cultural Workshops",
-    "Local Guide Assistance",
-  ],
-},
-
+    id: "a4",
+    name: "Assam Heritage Tours",
+    rating: 4.7,
+    image:
+      "https://images.pexels.com/photos/2082109/pexels-photo-2082109.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    specialty: "Tea Gardens & River Cruises",
+    destinations: 6,
+    description:
+      "Discover Assam’s tea trails, Brahmaputra river cruises, and cultural tours showcasing traditional villages and wildlife.",
+    years: 9,
+    clients: 1100,
+    services: [
+      "Tea Estate Visits",
+      "Brahmaputra River Cruise",
+      "Cultural Village Tours",
+      "Wildlife Safaris",
+      "Local Handicraft Experiences",
+    ],
+  },
+  {
+    id: "a5",
+    name: "Nagaland Explorer Co.",
+    rating: 4.8,
+    image:
+      "https://images.pexels.com/photos/2397653/pexels-photo-2397653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    specialty: "Tribal & Festival Tours",
+    destinations: 4,
+    description:
+      "Experience Nagaland’s vibrant tribal heritage, Hornbill Festival, and scenic mountain adventures with local experts.",
+    years: 11,
+    clients: 850,
+    services: [
+      "Hornbill Festival Packages",
+      "Tribal Village Homestays",
+      "Mountain Trekking",
+      "Cultural Workshops",
+      "Local Guide Assistance",
+    ],
+  },
 ];
 
 // === EXPERIENCES ===
 
 export const experiences = [
   {
-    id: 'exp1',
-    title: 'Kaziranga Wildlife & Tea Estate Retreat',
-    subtitle: '5-day luxury wilderness escape',
-    agencyId: 'a1',
-    price: 'Rs. 1,200',
-    duration: '5 days',
-    destinations: ['Guwahati', 'Kaziranga', 'Jorhat'],
-    image: 'https://www.kaziranganationalpark-india.com/blog/wp-content/uploads/2025/10/Hathikhuli.jpg',
-    overview: 'Explore the UNESCO-listed Kaziranga National Park, home to the one-horned rhino, and relax in colonial-style tea bungalows surrounded by lush plantations.',
+    id: "exp1",
+    title: "Kaziranga Wildlife & Tea Estate Retreat",
+    subtitle: "5-day luxury wilderness escape",
+    agencyId: "a1",
+    price: "Rs. 1,200",
+    duration: "5 days",
+    destinations: ["Guwahati", "Kaziranga", "Jorhat"],
+    image:
+      "https://www.kaziranganationalpark-india.com/blog/wp-content/uploads/2025/10/Hathikhuli.jpg",
+    overview:
+      "Explore the UNESCO-listed Kaziranga National Park, home to the one-horned rhino, and relax in colonial-style tea bungalows surrounded by lush plantations.",
     includes: [
-      '4×4 jungle safaris',
-      'Luxury bungalow stay',
-      'All meals & transfers',
-      'Tea garden walk',
-      'Cultural evening with Bihu dance'
+      "4×4 jungle safaris",
+      "Luxury bungalow stay",
+      "All meals & transfers",
+      "Tea garden walk",
+      "Cultural evening with Bihu dance",
     ],
     highlights: [
-      'Elephant & jeep safaris',
-      'Visit to tea factory',
-      'Brahmaputra sunset cruise',
-      'Local Assamese cuisine workshop'
+      "Elephant & jeep safaris",
+      "Visit to tea factory",
+      "Brahmaputra sunset cruise",
+      "Local Assamese cuisine workshop",
     ],
     rating: 4.9,
-    reviews: 58
+    reviews: 58,
   },
   {
-    id: 'exp2',
-    title: 'Meghalaya Living Root Bridges & Waterfalls Trail',
-    subtitle: '6-day adventure through the Abode of Clouds',
-    agencyId: 'a3',
-    price: 'Rs. 950',
-    duration: '6 days',
-    destinations: ['Shillong', 'Cherrapunji', 'Mawlynnong', 'Dawki'],
-    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqxNDCosTTiwSZ4p2vpj2-z8wduZEWc2K1tIo8lECA7X7PPCeh5-DGprId9DFIwHHyO1vOwDz_jEZ0vwnANlKSuTnOEdmt4qTMbuIpBR2PbsUzob0NUvTV98tvxJ9CDUN1L5kZfVPhuZw/w1200-h630-p-k-no-nu/The+living+root+bridges+of+Meghalaya+-+one+of+the+best+monsoon+holiday+destinations+of+India.JPG',
-    overview: 'Trek through misty forests, cross centuries-old living root bridges, and kayak on crystal-clear rivers in one of the cleanest villages in Asia.',
+    id: "exp2",
+    title: "Meghalaya Living Root Bridges & Waterfalls Trail",
+    subtitle: "6-day adventure through the Abode of Clouds",
+    agencyId: "a3",
+    price: "Rs. 950",
+    duration: "6 days",
+    destinations: ["Shillong", "Cherrapunji", "Mawlynnong", "Dawki"],
+    image:
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqxNDCosTTiwSZ4p2vpj2-z8wduZEWc2K1tIo8lECA7X7PPCeh5-DGprId9DFIwHHyO1vOwDz_jEZ0vwnANlKSuTnOEdmt4qTMbuIpBR2PbsUzob0NUvTV98tvxJ9CDUN1L5kZfVPhuZw/w1200-h630-p-k-no-nu/The+living+root+bridges+of+Meghalaya+-+one+of+the+best+monsoon+holiday+destinations+of+India.JPG",
+    overview:
+      "Trek through misty forests, cross centuries-old living root bridges, and kayak on crystal-clear rivers in one of the cleanest villages in Asia.",
     includes: [
-      'Boutique homestay accommodation',
-      'Daily breakfast & dinner',
-      'Guided treks',
-      'Private transfers',
-      'Entry fees & permits'
+      "Boutique homestay accommodation",
+      "Daily breakfast & dinner",
+      "Guided treks",
+      "Private transfers",
+      "Entry fees & permits",
     ],
     highlights: [
-      'Double-decker root bridge hike',
-      'Nohkalikai Falls viewpoint',
-      'Boating in Dawki River',
-      'Village eco-walk in Mawlynnong'
+      "Double-decker root bridge hike",
+      "Nohkalikai Falls viewpoint",
+      "Boating in Dawki River",
+      "Village eco-walk in Mawlynnong",
     ],
     rating: 5.0,
-    reviews: 72
+    reviews: 72,
   },
   {
-    id: 'exp3',
-    title: 'Tawang Monastery & Himalayan Culture Expedition',
-    subtitle: '7-day high-altitude spiritual adventure',
-    agencyId: 'a5',
-    price: 'Rs. 1,500',
-    duration: '7 days',
-    destinations: ['Guwahati', 'Bomdila', 'Tawang', 'Dirang'],
-    image: 'https://c8.alamy.com/comp/D1XT3W/monk-sitting-tawang-monastery-arunachal-pradesh-india-the-largest-D1XT3W.jpg',
-    overview: 'Journey through winding Himalayan passes to visit ancient monasteries, alpine lakes, and meet the warm-hearted Monpa people.',
+    id: "exp3",
+    title: "Tawang Monastery & Himalayan Culture Expedition",
+    subtitle: "7-day high-altitude spiritual adventure",
+    agencyId: "a5",
+    price: "Rs. 1,500",
+    duration: "7 days",
+    destinations: ["Guwahati", "Bomdila", "Tawang", "Dirang"],
+    image:
+      "https://c8.alamy.com/comp/D1XT3W/monk-sitting-tawang-monastery-arunachal-pradesh-india-the-largest-D1XT3W.jpg",
+    overview:
+      "Journey through winding Himalayan passes to visit ancient monasteries, alpine lakes, and meet the warm-hearted Monpa people.",
     includes: [
-      'All permits (ILP)',
-      'Mountain lodge stays',
-      'Breakfast & dinner',
-      'Local guide & driver',
-      'Cultural interactions'
+      "All permits (ILP)",
+      "Mountain lodge stays",
+      "Breakfast & dinner",
+      "Local guide & driver",
+      "Cultural interactions",
     ],
     highlights: [
-      'Visit 400-year-old Tawang Monastery',
-      'Sela Pass (13,700 ft)',
-      'PT Tso Lake photography stop',
-      'Monpa handicraft shopping'
+      "Visit 400-year-old Tawang Monastery",
+      "Sela Pass (13,700 ft)",
+      "PT Tso Lake photography stop",
+      "Monpa handicraft shopping",
     ],
     rating: 4.8,
-    reviews: 46
+    reviews: 46,
   },
   {
-    id: 'exp4',
-    title: 'Hornbill Festival & Naga Village Experience',
-    subtitle: '5-day cultural celebration of Nagaland',
-    agencyId: 'a7',
-    price: 'Rs. 1,100',
-    duration: '5 days',
-    destinations: ['Kohima', 'Khonoma', 'Touphema'],
-    image: 'https://www.shikhar.com/blog/wp-content/uploads/2020/12/Nagaland-Hornbill-festival-1024x680.jpg',
-    overview: 'Attend the world-famous Hornbill Festival, discover warrior heritage, and stay in traditional villages with authentic Naga hospitality.',
+    id: "exp4",
+    title: "Hornbill Festival & Naga Village Experience",
+    subtitle: "5-day cultural celebration of Nagaland",
+    agencyId: "a7",
+    price: "Rs. 1,100",
+    duration: "5 days",
+    destinations: ["Kohima", "Khonoma", "Touphema"],
+    image:
+      "https://www.shikhar.com/blog/wp-content/uploads/2020/12/Nagaland-Hornbill-festival-1024x680.jpg",
+    overview:
+      "Attend the world-famous Hornbill Festival, discover warrior heritage, and stay in traditional villages with authentic Naga hospitality.",
     includes: [
-      'Festival entry passes',
-      'Village homestay',
-      'Guided heritage tours',
-      'Local meals',
-      'All transfers'
+      "Festival entry passes",
+      "Village homestay",
+      "Guided heritage tours",
+      "Local meals",
+      "All transfers",
     ],
     highlights: [
-      'Tribal dance performances',
-      'Local rice beer tasting',
-      'Khonoma green village walk',
-      'Traditional craft market'
+      "Tribal dance performances",
+      "Local rice beer tasting",
+      "Khonoma green village walk",
+      "Traditional craft market",
     ],
     rating: 4.9,
-    reviews: 63
+    reviews: 63,
   },
   {
-    id: 'exp5',
-    title: 'Ziro Valley Music & Nature Escape',
-    subtitle: '4-day Apatani culture & music immersion',
-    agencyId: 'a6',
-    price: 'Rs. 800',
-    duration: '4 days',
-    destinations: ['Ziro', 'Itanagar'],
-    image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/5f/26/e2/concert.jpg?w=700&h=-1&s=1',
-    overview: 'Relax amid rice paddies and pine hills in Ziro Valley. Attend the world-famous Ziro Music Festival and explore unique Apatani tribal culture.',
+    id: "exp5",
+    title: "Ziro Valley Music & Nature Escape",
+    subtitle: "4-day Apatani culture & music immersion",
+    agencyId: "a6",
+    price: "Rs. 800",
+    duration: "4 days",
+    destinations: ["Ziro", "Itanagar"],
+    image:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/5f/26/e2/concert.jpg?w=700&h=-1&s=1",
+    overview:
+      "Relax amid rice paddies and pine hills in Ziro Valley. Attend the world-famous Ziro Music Festival and explore unique Apatani tribal culture.",
     includes: [
-      'Festival tickets',
-      'Eco-lodge stay',
-      'Daily meals',
-      'Guided village tours',
-      'Local transport'
+      "Festival tickets",
+      "Eco-lodge stay",
+      "Daily meals",
+      "Guided village tours",
+      "Local transport",
     ],
     highlights: [
-      'Live indie music festival',
-      'Apatani tribal village walk',
-      'Local craft markets',
-      'Bonfire nights under the stars'
+      "Live indie music festival",
+      "Apatani tribal village walk",
+      "Local craft markets",
+      "Bonfire nights under the stars",
     ],
     rating: 4.7,
-    reviews: 51
+    reviews: 51,
   },
   {
-    id: 'exp6',
-    title: 'Sikkim Monastery & Lake Tour',
-    subtitle: '6-day scenic Himalayan journey',
-    agencyId: 'a4',
-    price: 'Rs. 1,350',
-    duration: '6 days',
-    destinations: ['Gangtok', 'Tsomgo Lake', 'Pelling', 'Ravangla'],
-    image: 'https://s7ap1.scene7.com/is/image/incredibleindia/tsomgo-lake-sikkim-tri-hero?qlt=82&ts=1727167195792',
-    overview: 'Discover Sikkim’s breathtaking lakes, monasteries, and snow-capped peaks on this serene spiritual and scenic adventure.',
+    id: "exp6",
+    title: "Sikkim Monastery & Lake Tour",
+    subtitle: "6-day scenic Himalayan journey",
+    agencyId: "a4",
+    price: "Rs. 1,350",
+    duration: "6 days",
+    destinations: ["Gangtok", "Tsomgo Lake", "Pelling", "Ravangla"],
+    image:
+      "https://s7ap1.scene7.com/is/image/incredibleindia/tsomgo-lake-sikkim-tri-hero?qlt=82&ts=1727167195792",
+    overview:
+      "Discover Sikkim’s breathtaking lakes, monasteries, and snow-capped peaks on this serene spiritual and scenic adventure.",
     includes: [
-      'All permits (ILP)',
-      'Luxury hotel stays',
-      'Breakfast & dinner',
-      'Private vehicle & guide',
-      'Entrance fees'
+      "All permits (ILP)",
+      "Luxury hotel stays",
+      "Breakfast & dinner",
+      "Private vehicle & guide",
+      "Entrance fees",
     ],
     highlights: [
-      'Rumtek & Pemayangtse monasteries',
-      'Tsomgo & Khecheopalri Lakes',
-      'Kanchenjunga viewpoints',
-      'Ravangla Buddha Park'
+      "Rumtek & Pemayangtse monasteries",
+      "Tsomgo & Khecheopalri Lakes",
+      "Kanchenjunga viewpoints",
+      "Ravangla Buddha Park",
     ],
     rating: 5.0,
-    reviews: 48
+    reviews: 48,
   },
   {
-    id: 'exp7',
-    title: 'Mizoram Hills & Handloom Trail',
-    subtitle: '5-day offbeat cultural circuit',
-    agencyId: 'a8',
-    price: 'Rs. 850',
-    duration: '5 days',
-    destinations: ['Aizawl', 'Reiek', 'Hmuifang'],
-    image: 'https://static2.tripoto.com/media/filter/tst/img/371044/TripDocument/1543731240_trek_to_reiek_peak_i.jpg.webp',
-    overview: 'Experience Mizoram’s tranquil hills, traditional handlooms, and folk music while staying in scenic village lodges.',
+    id: "exp7",
+    title: "Mizoram Hills & Handloom Trail",
+    subtitle: "5-day offbeat cultural circuit",
+    agencyId: "a8",
+    price: "Rs. 850",
+    duration: "5 days",
+    destinations: ["Aizawl", "Reiek", "Hmuifang"],
+    image:
+      "https://static2.tripoto.com/media/filter/tst/img/371044/TripDocument/1543731240_trek_to_reiek_peak_i.jpg.webp",
+    overview:
+      "Experience Mizoram’s tranquil hills, traditional handlooms, and folk music while staying in scenic village lodges.",
     includes: [
-      'Homestay accommodation',
-      'Local guide',
-      'Daily breakfast & dinner',
-      'Cultural performance',
-      'Transfers & permits'
+      "Homestay accommodation",
+      "Local guide",
+      "Daily breakfast & dinner",
+      "Cultural performance",
+      "Transfers & permits",
     ],
     highlights: [
-      'Reiek Tlang viewpoint trek',
-      'Visit Mizo handloom centers',
-      'Local bamboo cuisine',
-      'Evening folk dance show'
+      "Reiek Tlang viewpoint trek",
+      "Visit Mizo handloom centers",
+      "Local bamboo cuisine",
+      "Evening folk dance show",
     ],
     rating: 4.6,
-    reviews: 39
+    reviews: 39,
   },
   {
-    id: 'exp8',
-    title: 'Tripura Royal Heritage & Nature Tour',
-    subtitle: '4-day palace and lake experience',
-    agencyId: 'a2',
-    price: 'Rs. 700',
-    duration: '4 days',
-    destinations: ['Agartala', 'Ujjayanta Palace', 'Neermahal', 'Rudrasagar'],
-    image: 'https://www.incredibleindia.gov.in/content/dam/incredible-india/images/trips/tripura/7-day-trip-tripura-a-week-in-the-crown-of-the-east/1-ujjayanta-palace-tripura-tri-iter-day1.jpg',
-    overview: 'Explore Tripura’s royal heritage, serene lakes, and temples surrounded by forested hills.',
+    id: "exp8",
+    title: "Tripura Royal Heritage & Nature Tour",
+    subtitle: "4-day palace and lake experience",
+    agencyId: "a2",
+    price: "Rs. 700",
+    duration: "4 days",
+    destinations: ["Agartala", "Ujjayanta Palace", "Neermahal", "Rudrasagar"],
+    image:
+      "https://www.incredibleindia.gov.in/content/dam/incredible-india/images/trips/tripura/7-day-trip-tripura-a-week-in-the-crown-of-the-east/1-ujjayanta-palace-tripura-tri-iter-day1.jpg",
+    overview:
+      "Explore Tripura’s royal heritage, serene lakes, and temples surrounded by forested hills.",
     includes: [
-      'Heritage hotel stay',
-      'Private guide',
-      'All meals',
-      'Boat ride at Rudrasagar Lake',
-      'Airport transfers'
+      "Heritage hotel stay",
+      "Private guide",
+      "All meals",
+      "Boat ride at Rudrasagar Lake",
+      "Airport transfers",
     ],
     highlights: [
-      'Ujjayanta Palace Museum',
-      'Boat to Neermahal Water Palace',
-      'Tripura Sundari Temple visit',
-      'Local tribal market walk'
+      "Ujjayanta Palace Museum",
+      "Boat to Neermahal Water Palace",
+      "Tripura Sundari Temple visit",
+      "Local tribal market walk",
     ],
     rating: 4.8,
-    reviews: 34
-  }
+    reviews: 34,
+  },
 ];

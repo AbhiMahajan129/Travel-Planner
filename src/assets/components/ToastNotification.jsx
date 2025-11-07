@@ -1,92 +1,83 @@
-// import React, { useEffect, useState } from 'react';
-// import { Toast, ToastContainer } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Toast, ToastContainer } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-// const ToastNotification = () => {
-//   const [show, setShow] = useState(false);
+// --- ARUNACHAL PRADESH GUIDELINES ---
+const ARUNACHAL_GUIDELINE = {
+  title: "🔴 MANDATORY: Arunachal Pradesh ILP",
+  style: "danger", // Use danger style for critical information
+  message: `
+  ⚠️ MUST DO: Inner Line Permit (ILP)
+  
+  The ILP is required for all domestic visitors entering the state. You must secure this document online BEFORE traveling.
 
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setShow(true);
-//       setTimeout(() => setShow(false), 3000);
-//     }, 5000);
-    
-//     return () => clearInterval(interval);
-//   }, []);
+  ❌ MUST NOT: Travel without the ILP.
 
-//   return (
-//     <ToastContainer position="top-end" className="p-3">
-//       <Toast
-//         bg="success"
-//         onClose={() => setShow(false)}
-//         show={show}
-//         delay={3000}
-//         autohide
-//       >
-//         <Toast.Header>
-//           <strong className="me-auto">Notification</strong>
-//           <small>Just now</small>
-//         </Toast.Header>
-//         <Toast.Body>⏰ This toast appears every 5 seconds automatically!</Toast.Body>
-//       </Toast>
-//     </ToastContainer>
-//   );
-// };
-
-// export default ToastNotification;
-// 
-
-import React, { useEffect, useState } from 'react';
-import { Toast, ToastContainer } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+  ✅ MUST DO: Carry warm clothes. Most popular areas (like Tawang) are high altitude and require extra layers, even in summer.
+  `,
+};
+// ------------------------------------
 
 const ToastNotification = () => {
   const [show, setShow] = useState(false);
 
+  // Use useEffect to show the notification immediately on load
   useEffect(() => {
-    const interval = setInterval(() => {
-      setShow(true);
-      setTimeout(() => setShow(false), 3000); // Hide after 3 seconds
-    }, 5000); // Show every 5 seconds
+    const hasSeenGuide = sessionStorage.getItem("ArunachalGuideShown");
 
-    return () => clearInterval(interval);
+    // Only show the critical guide once per browser session
+    if (!hasSeenGuide) {
+      setShow(true);
+      // Set a timer to automatically hide the critical message after 15 seconds
+      const timer = setTimeout(() => setShow(false), 15000);
+      sessionStorage.setItem("ArunachalGuideShown", "true");
+      return () => clearTimeout(timer);
+    }
   }, []);
+
+  // Set colors based on the defined style (danger)
+  const styles = {
+    danger: { bg: "#dc3545", text: "#dc3545" },
+  };
+  const currentStyle = styles[ARUNACHAL_GUIDELINE.style];
 
   return (
     <ToastContainer
       className="p-3"
       style={{
-        position: 'fixed',
-        top: '20px',
-        right: '20px',
+        position: "fixed",
+        top: "20px",
+        right: "20px",
         zIndex: 9999,
       }}
     >
       <Toast
         onClose={() => setShow(false)}
         show={show}
-        delay={3000}
+        delay={15000} // Autohide after 15 seconds
         autohide
         animation={true}
         style={{
-          backgroundColor: 'white', // Body background
-          color: '#dc3545', // Body text color red
-          border: '1px solid #dc3545',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+          backgroundColor: "white",
+          color: currentStyle.text,
+          border: `1px solid ${currentStyle.bg}`,
+          boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+          minWidth: "400px", // Wider to fit the text
         }}
       >
         <Toast.Header
           closeButton={true}
           style={{
-            backgroundColor: '#dc3545', // Red header
-            color: 'white', // Header text white
-            borderBottom: '1px solid #dc3545',
+            backgroundColor: currentStyle.bg,
+            color: "white",
+            borderBottom: `1px solid ${currentStyle.bg}`,
           }}
         >
-          <strong className="me-auto">⚠ Notification</strong>
-          <small>Just now</small>
+          <strong className="me-auto">{ARUNACHAL_GUIDELINE.title}</strong>
+          <small>Travel Advisory</small>
         </Toast.Header>
-        <Toast.Body>
-          ⏰ This toast appears every 5 seconds and stays for 3 seconds!
+        <Toast.Body style={{ whiteSpace: "pre-wrap" }}>
+          {ARUNACHAL_GUIDELINE.message}
         </Toast.Body>
       </Toast>
     </ToastContainer>
@@ -94,5 +85,3 @@ const ToastNotification = () => {
 };
 
 export default ToastNotification;
-
-
