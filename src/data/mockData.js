@@ -721,7 +721,7 @@ export const popularPackages = [
     id: "p5",
     title: "Majuli River Island Retreat",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/2/2b/Majuli_Island.jpg",
+      "https://imgs.search.brave.com/bwBirwLplrBQDgo9BvEBWuLFWP8mpfpUNqNt8UaUpb0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS1jZG4udHJpcGFk/dmlzb3IuY29tL21l/ZGlhL3Bob3RvLW8v/MWIvNGMvYWEvMGQv/Y2FwdGlvbi5qcGc",
     price: 13500,
     rating: 4.7,
     duration: 4,
