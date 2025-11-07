@@ -11,6 +11,7 @@ import TouristSpotPage from "./data/pages/TouristSpotPage";
 import FoodPlacePage from "./data/pages/FoodPlacePage";
 import AiChatbot from "./assets/components/AiChatbot";
 import EmergencyButton from "./assets/components/EmergencyButton";
+import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
 
 function App() {
   return (
@@ -18,12 +19,50 @@ function App() {
       <NavbarComp />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/destinations/:id" element={<Destinations />} />
+        <Route
+          path="/destinations/:id"
+          element={
+            <>
+              <SignedIn>
+                <Destinations />
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/hotel/:hotelId" element={<HotelInfoPage />} />
+        <Route
+          path="/hotel/:hotelId"
+          element={
+            <>
+              <SignedIn>
+                <HotelInfoPage />
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
+
         <Route path="/site/:siteId" element={<TouristSpotPage />} />
-        <Route path="/food/:foodId" element={<FoodPlacePage />} />
+        <Route
+          path="/food/:foodId"
+          element={
+            <>
+              <SignedIn>
+                <FoodPlacePage />
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
       </Routes>
       <Footer />
       <AiChatbot />
