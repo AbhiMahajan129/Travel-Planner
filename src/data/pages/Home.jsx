@@ -9,6 +9,7 @@ import {
   Carousel,
   Form,
 } from "react-bootstrap";
+// Removed 'useNavigate' and only keeping 'Link'
 import { Link } from "react-router-dom";
 import {
   popularPackages,
@@ -21,6 +22,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Home() {
+  // Removed useNavigate initialization
+
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
   const [showCalendar, setShowCalendar] = useState(null);
@@ -48,6 +51,7 @@ export default function Home() {
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
   const [showGuests, setShowGuests] = useState(false);
+  const [destination, setDestination] = useState(""); // State for destination input
 
   const totalGuests = adults + children + infants;
 
@@ -56,6 +60,19 @@ export default function Home() {
 
   const [scrollIndex, setScrollIndex] = useState(0);
   const packagesPerPage = 5; // Show 5 at a time
+
+  // Sorted packages (base list)
+  const sortedPackages = [...popularPackages].sort(
+    (a, b) => (b.rating || 0) - (a.rating || 0)
+  );
+
+  // NEW STATE: Filtered list for display
+  const [filteredPackages, setFilteredPackages] = useState(sortedPackages);
+
+  // Reset scroll index whenever filtered packages change
+  useEffect(() => {
+    setScrollIndex(0);
+  }, [filteredPackages]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -70,6 +87,34 @@ export default function Home() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  /**
+   * MODIFIED: Filters packages based on the destination input.
+   * NOTE: For a full solution, you would also filter by dates, guests, etc.
+   */
+  const handleSearch = () => {
+    const query = destination.toLowerCase().trim();
+
+    if (!query) {
+      // If the search box is empty, show all packages
+      setFilteredPackages(sortedPackages);
+      return;
+    }
+
+    const results = sortedPackages.filter(
+      (pkg) =>
+        pkg.title.toLowerCase().includes(query) ||
+        (pkg.items &&
+          pkg.items.some((item) => item.toLowerCase().includes(query)))
+      // Assuming packages have a 'location' or 'destination' property you could check
+      // OR, simply check if the destination name is included in the package title
+    );
+
+    setFilteredPackages(results);
+
+    // Optional: Log the search action
+    console.log(`Searching for packages matching: "${destination}"`);
+  };
+
   const scrollLeft = () => {
     setScrollIndex(Math.max(0, scrollIndex - packagesPerPage));
   };
@@ -77,16 +122,14 @@ export default function Home() {
   const scrollRight = () => {
     setScrollIndex(
       Math.min(
-        sortedPackages.length - packagesPerPage,
+        filteredPackages.length - packagesPerPage, // Use filteredPackages length
         scrollIndex + packagesPerPage
       )
     );
   };
 
-  const sortedPackages = [...popularPackages].sort(
-    (a, b) => (b.rating || 0) - (a.rating || 0)
-  );
-  const visiblePackages = sortedPackages.slice(
+  // Use the filtered list for visualization
+  const visiblePackages = filteredPackages.slice(
     scrollIndex,
     scrollIndex + packagesPerPage
   );
@@ -141,11 +184,20 @@ export default function Home() {
               {/* WHERE */}
               <div className="border-end px-3 py-2 glow">
                 <small className="text-muted d-block">Where</small>
+                {/* MODIFICATION: Added value, onChange, and onKeyDown for search */}
                 <Form.Control
                   type="text"
                   placeholder="Search destinations"
                   className="border-0 p-0"
                   style={{ fontSize: "0.95rem", fontWeight: "500" }}
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleSearch();
+                    }
+                  }}
                 />
               </div>
 
@@ -264,13 +316,10 @@ export default function Home() {
                       background: "#ff385c",
                       border: "none",
                     }}
+                    // MODIFICATION: Call handleSearch
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log("Search clicked!", {
-                        arrivalDate,
-                        departureDate,
-                        totalGuests,
-                      });
+                      handleSearch(); // 👈 Search function called here
                     }}
                   >
                     <i className="bi bi-search text-white"></i>
@@ -373,15 +422,22 @@ export default function Home() {
 
       {/* MAIN CONTENT */}
       <Container className="my-5">
-        {/* POPULAR PACKAGES */}
+        {/* POPULAR PACKAGES - Now using filteredPackages */}
         <div className="mb-5">
           <div className="d-flex align-items-center justify-content-between mb-4">
-            <h2 className="h3 fw-bold mb-0">Popular Packages</h2>
+            <h2 className="h3 fw-bold mb-0">
+              {destination
+                ? `Search Results for "${destination}"`
+                : "Popular Packages"}
+              {filteredPackages.length === 0 && (
+                <span className="text-danger ms-3 h6">(No packages found)</span>
+              )}
+            </h2>
             <Link
               to="/packages"
               className="text-primary fw-bold text-decoration-none"
             >
-              See More
+              See All
             </Link>
           </div>
           <div className="position-relative">
@@ -390,7 +446,10 @@ export default function Home() {
               className="position-absolute start-0 top-50 translate-middle-y shadow rounded-circle"
               style={{ zIndex: 10, width: "50px", height: "50px" }}
               onClick={scrollLeft}
-              disabled={scrollIndex === 0}
+              // Disabled if we're at the start or if there aren't enough packages to scroll
+              disabled={
+                scrollIndex === 0 || filteredPackages.length <= packagesPerPage
+              }
             >
               <i className="bi bi-chevron-left fs-4"></i>
             </Button>
@@ -399,7 +458,11 @@ export default function Home() {
               className="position-absolute end-0 top-50 translate-middle-y shadow rounded-circle"
               style={{ zIndex: 10, width: "50px", height: "50px" }}
               onClick={scrollRight}
-              disabled={scrollIndex >= sortedPackages.length - packagesPerPage}
+              // Disabled if we're at the end or if there aren't enough packages to scroll
+              disabled={
+                scrollIndex >= filteredPackages.length - packagesPerPage ||
+                filteredPackages.length <= packagesPerPage
+              }
             >
               <i className="bi bi-chevron-right fs-4"></i>
             </Button>
@@ -408,6 +471,7 @@ export default function Home() {
               className="d-flex gap-4 overflow-hidden"
               style={{ scrollBehavior: "smooth" }}
             >
+              {/* Using visiblePackages (derived from filteredPackages) */}
               {visiblePackages.map((pkg) => (
                 <Card
                   key={pkg.id}
@@ -467,11 +531,19 @@ export default function Home() {
                   </Link>
                 </Card>
               ))}
+              {/* Display a message if no packages are found */}
+              {filteredPackages.length === 0 && (
+                <Col className="p-4">
+                  <p className="lead text-muted">
+                    No packages match your search criteria.
+                  </p>
+                </Col>
+              )}
             </div>
           </div>
         </div>
 
-        {/* POPULAR SITES */}
+        {/* POPULAR SITES - Unchanged */}
         <div className="mb-5">
           <div className="d-flex align-items-center justify-content-between mb-4">
             <h2 className="h3 fw-bold mb-0">Popular Places to Visit</h2>
@@ -550,7 +622,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* POPULAR HOTELS */}
+        {/* POPULAR HOTELS - Unchanged */}
         <div className="mb-5">
           <div className="d-flex align-items-center justify-content-between mb-4">
             <h2 className="h3 fw-bold mb-0">Top Hotels</h2>
@@ -602,7 +674,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* POPULAR AGENCIES */}
+        {/* POPULAR AGENCIES - Unchanged */}
         <div className="mb-5">
           <div className="d-flex align-items-center justify-content-between mb-4">
             <h2 className="h3 fw-bold mb-0">Top Travel Agencies</h2>
