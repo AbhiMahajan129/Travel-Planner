@@ -48,9 +48,6 @@ export default function NavbarComp() {
   return (
     <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm">
       <Container>
-        <Navbar.Brand as={Link} to="/">
-          TravelPlanner
-        </Navbar.Brand>
         {/* Left: Brand */}
         <Navbar.Brand as={Link} to="/" className="fw-bold fs-4 text-primary">
           TravelPlanner
@@ -91,11 +88,6 @@ export default function NavbarComp() {
                 {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
               </span>
             )}
-
-            {/* Login Button */}
-            <Button as={Link} to="/login" variant="outline-primary" size="sm">
-              <i className="bi bi-person me-1"></i> Login
-            </Button>
           </Nav>
           {/* RIGHT SIDE */}
           <Nav className="align-items-center">
